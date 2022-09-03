@@ -29,27 +29,27 @@ const userMetaSchema = mongoose.Schema(
     //* Referencing  to Category Model (Every user has chosen 5 categories)
     category_id_1: {
       type: mongoose.Types.ObjectId,
-      Ref: "Category",
+      ref: "Category",
       required: true,
     },
     category_id_2: {
       type: mongoose.Types.ObjectId,
-      Ref: "Category",
+      ref: "Category",
       required: true,
     },
     category_id_3: {
       type: mongoose.Types.ObjectId,
-      Ref: "Category",
+      ref: "Category",
       required: true,
     },
     category_id_4: {
       type: mongoose.Types.ObjectId,
-      Ref: "Category",
+      ref: "Category",
       required: true,
     },
     category_id_5: {
       type: mongoose.Types.ObjectId,
-      Ref: "Category",
+      ref: "Category",
       required: true,
     },
 
