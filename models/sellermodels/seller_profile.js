@@ -48,6 +48,7 @@ const sellerSchema = mongoose.Schema(
 
     //* Refrecing to Other Schemas
     education: {
+      //* required not added here because college might not be in our databse
       country: { type: mongoose.Types.ObjectId, ref: "Country" },
       college: { type: mongoose.Types.ObjectId, ref: "College" },
       degree: { type: mongoose.Types.ObjectId, ref: "Degree" },
