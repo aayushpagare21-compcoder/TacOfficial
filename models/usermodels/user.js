@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 /*Details of User 
 When user will register theses details would be stored
-*/
+*/ 
 
 const userSchema = mongoose.Schema(
   {
@@ -45,6 +45,7 @@ const userSchema = mongoose.Schema(
     mobile_number: {
       type: String,
       length: [10, "phone number must contain 10 charecters"],
+      match: [/\d{10}/, "enter a valid phone number"],
       required: [true, "phone number is required"],
     },
 
