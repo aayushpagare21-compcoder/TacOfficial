@@ -8,10 +8,7 @@ const categorySchema = mongoose.Schema(
   {
     //* Referencing to the subcategory model (Every Category has zero or more subcategory)
     sub_category_id: {
-      type: [
-        { type: mongoose.Types.ObjectId, ref: "SubCategory", required: true },
-      ],
-      Ref: "SubCategory",
+      type: [{ type: mongoose.ObjectId, ref: "SubCategory", required: true }],
     },
 
     category_name: {

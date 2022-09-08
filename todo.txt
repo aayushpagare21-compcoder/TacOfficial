@@ -1,4 +1,7 @@
 API's 
 
-getALLUsers 
-getALLCategories 
+user 
+/ : gets all users 
+
+categories : 
+/ : gets all categories with their subcategories   

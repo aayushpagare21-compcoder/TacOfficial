@@ -5,12 +5,11 @@ const categoryservice = require("../services/categoryservice.js");
 
 router.get("/", getAllCategories);
 
-function getAllCategories(req, res, next) { 
-  const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 0;
-  const page = req.query.page ? parseInt(req.query.page) : 0;
-
+//gets all categories as well as subcategories related to them 
+//! Navbar in fiverr
+function getAllCategories(req, res, next) {
   categoryservice
-    .getAllCategories(page, pageSize)
+    .getAllCategories()
     .then((categories) => res.status(200).json(categories))
     .catch((err) => next(err));
 }

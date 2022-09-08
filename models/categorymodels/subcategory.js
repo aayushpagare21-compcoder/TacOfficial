@@ -5,7 +5,7 @@ const subCategorySchema = mongoose.Schema(
     //* Referencing to Category (Every subcategory has a category)
     category_id: {
       type: String,
-      required: true,
+      // required: true,
       ref: "Category",
     },
 
