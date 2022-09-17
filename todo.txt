@@ -4,4 +4,12 @@ user
 / : gets all users 
 
 categories : 
-/ : gets all categories with their subcategories   
+/ : gets all categories with their subcategories    
+
+auth 
+/ : Register a new user saves email and password for mail verification. 
+/verify-email : verifies the email 
+/register : registers a verified user  
+
+Create a global error handler....
+

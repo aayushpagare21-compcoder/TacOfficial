@@ -5,7 +5,7 @@ const categoryservice = require("../services/categoryservice.js");
 
 router.get("/", getAllCategories);
 
-//gets all categories as well as subcategories related to them 
+//gets all categories as well as subcategories related to them
 //! Navbar in fiverr
 function getAllCategories(req, res, next) {
   categoryservice
