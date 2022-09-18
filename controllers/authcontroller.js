@@ -4,7 +4,7 @@ const router = express.Router();
 const authservice = require("../services/authservice.js");
 
 router.post("/", sendVerificationMail);
-router.get("/verify-email", verifyMail); 
+router.get("/verify-email", verifyMail);  
 
 router.get("/register", (req, res, next) => {
   res.send("You would get a register page here");
