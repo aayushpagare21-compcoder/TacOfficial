@@ -2,8 +2,11 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
+const bodyparser = require("body-parser");
 
 app.use(express.json());
+app.use(bodyparser.urlencoded({ extended: false }));
+app.use(bodyparser.json());
 
 app.use("/users", require("./controllers/usercontroller.js"));
 app.use("/categories", require("./controllers/categorycontroller.js"));
