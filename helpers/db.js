@@ -1,6 +1,7 @@
+/*A utility function that helps connecting to the database */
 const mongoose = require("mongoose");
 
-const options = {}; 
+const options = {};
 
 mongoose
   .connect(process.env.DB_URL, options)

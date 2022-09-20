@@ -1,3 +1,4 @@
+/*A utility module that sends mail */
 const sgMail = require("@sendgrid/mail");
 
 sgMail.setApiKey(process.env.SG_MAIL_KEY);

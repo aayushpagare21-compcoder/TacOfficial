@@ -6,20 +6,18 @@ const sendMail = require("../helpers/sendmail.js");
 
 const crypto = require("crypto");
 
-// Sends email verification mail to user
+/*Sends email verification mail to user 
+ returns a promise */
 async function sendVerificationMail(params) {
+  // Generates a token and saves this object in database
   const token = crypto.randomBytes(64).toString("hex");
   const mailObj = {
     email: params.email,
     emailToken: token,
   };
+  await MailVerification.create(mailObj);
 
-  try {
-    await MailVerification.create(mailObj); //!handle it
-  } catch (error) {
-    //!handle 500 Internal Server Error;
-  }
-
+  // Sends mail to the user
   return sendMail(
     params.email,
     `Thanks for registering to TAC`,
@@ -29,21 +27,19 @@ async function sendVerificationMail(params) {
   );
 }
 
+/* 
+  verifies users email address 
+  redirects the user
+*/
 async function verifyMail(req, res, next) {
-  console.log(req.query.token, req.query.tokenid);
-  //Check if the correct user access that route
-  let mailObjFound;
-  try {
-    mailObjFound = await MailVerification.findOne({
-      emailToken: req.query.token,
-    });
-  } catch (error) {
-    //! 500 Internal Server Error
-  } 
+  // Verifies the token
+  const mailObjFound = await MailVerification.findOne({
+    emailToken: req.query.token,
+  });
 
-  //if not the correct user
+  //If token not verified redirects to verification error page
   if (!mailObjFound) {
-    return; //!authentication error 
+    res.redirect("/auth/verification-mail-error");
   } else {
     //redirect to the register page :
     res.redirect(`/auth/register`);
