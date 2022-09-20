@@ -41,9 +41,13 @@ function sendVerificationMail(req, res, next) {
   };
 
   authservice
-    .sendVerificationMail(params)
-    .then((message) => res.status(200).json(message))
-    .catch((err) => next(err));
+    .sendVerificationMail(params, next)
+    .then((message) => {
+      if (message) return res.status(200).json(message);
+    })
+    .catch((err) => {
+      return next(err);
+    }); //!Error sending mail internal server error
 }
 
 // Verifies the mail and redirects the user
@@ -60,17 +64,25 @@ function sendResetPasswordMail(req, res, next) {
   };
 
   authservice
-    .sendResetPasswordMail(params)
-    .then((message) => res.status(200).json(message))
-    .catch((err) => next(err));
+    .sendResetPasswordMail(params, next)
+    .then((message) => {
+      if (message) return res.status(200).json(message);
+    })
+    .catch((err) => {
+      return next(err);
+    }); //!Internal server error , error sending mail
 }
 
 /*Verifes the token and allows the user to reset the password */
 function resetPassword(req, res, next) {
   authservice
     .resetPassword(req, res, next)
-    .then((user) => res.status(202).json(user))
-    .catch((err) => next(err));
+    .then((user) => {
+      if (user) return res.status(202).json(user);
+    })
+    .catch((err) => {
+      return next(err);
+    }); //! Internal server error , not able to save user to db
 }
 
 module.exports = router;

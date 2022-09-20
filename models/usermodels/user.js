@@ -31,10 +31,6 @@ const userSchema = mongoose.Schema(
       required: [true, "email is required"],
       unique: [true, "user is alreay registered"],
       trim: true,
-      match: [
-        /^w+ ([.-]?w+)*@w+ ([.-]?w+)* (.w {2,3})+$/,
-        "please enter a valid email",
-      ],
     },
 
     password: {
@@ -74,7 +70,6 @@ const userSchema = mongoose.Schema(
     },
 
     date_of_birth: {
-      //User will select this from dropdown list or calender application
       type: {
         year: { type: Number },
         month: { type: Number },

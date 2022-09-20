@@ -3,19 +3,21 @@ const User = require("../models/usermodels/user.js");
 const ForgetPassword = require("../models/authmodels/forgetpassword.js");
 
 require("../helpers/db.js");
+const customerror = require("../helpers/customerror.js");
 const sendMail = require("../helpers/sendmail.js");
 
 const crypto = require("crypto");
 
 /*Sends email verification mail to user 
  returns a promise */
-async function sendVerificationMail(params) {
+async function sendVerificationMail(params, next) {
   // Generates a token and saves this object in database
   const token = crypto.randomBytes(64).toString("hex");
   const mailObj = {
     email: params.email,
     emailToken: token,
   };
+
   await MailVerification.create(mailObj);
 
   // Sends mail to the user
@@ -44,19 +46,20 @@ async function verifyMail(req, res, next) {
   } else {
     //redirect to the register page :
     res.redirect(`/auth/register`);
-    mailObjFound.emailToken = null;
   }
 }
 
 /*Sends reset password mail to the user
 returns a promise */
-async function sendResetPasswordMail(params) {
+async function sendResetPasswordMail(params, next) {
   // Generates a token and saves this object in database
   const token = crypto.randomBytes(64).toString("hex");
+
   const userFound = await User.findOne({ email: params.email });
 
   if (!userFound) {
-    // return; //!user not registered
+    //! customerror working
+    return next(customerror.userNotFound("Please register first"));
   }
 
   const mailObj = {
@@ -81,16 +84,17 @@ async function sendResetPasswordMail(params) {
   returns a promise
 */
 async function resetPassword(req, res, next) {
-  console.log(req.params);
   const mailObjFound = await ForgetPassword.findOne({
     emailToken: req.params.token,
   });
 
   if (!mailObjFound) {
-    //!invalid link
+    //! working
+    return next(customerror.unauthorizedUser("Invalid link to reset password"));
   }
 
-  const userFound = await User.findById({ _id: req.params.userId });
+  let userFound = await User.findById({ _id: req.params.userId });
+
   userFound.password = req.body.password;
   return await userFound.save();
 }
