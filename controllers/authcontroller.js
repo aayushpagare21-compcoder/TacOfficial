@@ -19,17 +19,16 @@ router.get("/verification-mail-error", (req, res, next) => {
   res.send("error");
 });
 
+//If user wants to reset his password while log-in
 router.post("/forget-password", sendResetPasswordMail);
+
+// Gets reset password input field
 router.get("/reset-password", (req, res, next) => {
   res.send("get reset password page here");
 });
-router.post("/reset-password/:token/:userId", resetPassword);
 
-// Verifies the mail and redirects the user
-// type void
-function verifyMail(req, res, next) {
-  authservice.verifyMail(req, res, next);
-}
+// Resets the password
+router.post("/reset-password/:token/:userId", resetPassword);
 
 /* Gets the email address of the user
    Generates token and saves it in the database 
@@ -47,6 +46,13 @@ function sendVerificationMail(req, res, next) {
     .catch((err) => next(err));
 }
 
+// Verifies the mail and redirects the user
+// type void
+function verifyMail(req, res, next) {
+  authservice.verifyMail(req, res, next);
+}
+
+/*Gets the email address of the user and sends a link to reset a password */
 function sendResetPasswordMail(req, res, next) {
   const params = {
     email: req.body.email,
@@ -59,6 +65,7 @@ function sendResetPasswordMail(req, res, next) {
     .catch((err) => next(err));
 }
 
+/*Verifes the token and allows the user to reset the password */
 function resetPassword(req, res, next) {
   authservice
     .resetPassword(req, res, next)

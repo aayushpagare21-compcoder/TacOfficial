@@ -48,7 +48,8 @@ async function verifyMail(req, res, next) {
   }
 }
 
-
+/*Sends reset password mail to the user
+returns a promise */
 async function sendResetPasswordMail(params) {
   // Generates a token and saves this object in database
   const token = crypto.randomBytes(64).toString("hex");
@@ -76,6 +77,9 @@ async function sendResetPasswordMail(params) {
   );
 }
 
+/*Verifies the token and allows the user to reset the password 
+  returns a promise
+*/
 async function resetPassword(req, res, next) {
   console.log(req.params);
   const mailObjFound = await ForgetPassword.findOne({
