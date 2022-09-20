@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const forgetPasswordSchema = mongoose.Schema(
   {
+    userId: { type: mongoose.Types.ObjectId, required: true, unique: true },
     email: { type: String, required: true, unique: true, required: true },
     emailToken: { type: String, required: true, unique: true, required: true },
     expireAt: {

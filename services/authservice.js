@@ -1,5 +1,6 @@
 const MailVerification = require("../models/authmodels/mailverification.js");
 const User = require("../models/usermodels/user.js");
+const ForgetPassword = require("../models/authmodels/forgetpassword.js");
 
 require("../helpers/db.js");
 const sendMail = require("../helpers/sendmail.js");
@@ -47,7 +48,52 @@ async function verifyMail(req, res, next) {
   }
 }
 
+
+async function sendResetPasswordMail(params) {
+  // Generates a token and saves this object in database
+  const token = crypto.randomBytes(64).toString("hex");
+  const userFound = await User.findOne({ email: params.email });
+
+  if (!userFound) {
+    // return; //!user not registered
+  }
+
+  const mailObj = {
+    userId: userFound._id,
+    email: params.email,
+    emailToken: token,
+  };
+
+  await ForgetPassword.create(mailObj);
+
+  // Sends mail to the user
+  return sendMail(
+    params.email,
+    `Sorry you find trouble logging in`,
+    `<h1> Click on this link to reset your password </h1>  
+  <p>The link would be only valid for 5 minutes </p>
+  <a href="http://${params.host}/auth/reset-password?token=${token}&userId=${userFound._id}"> Click Me </a>`
+  );
+}
+
+async function resetPassword(req, res, next) {
+  console.log(req.params);
+  const mailObjFound = await ForgetPassword.findOne({
+    emailToken: req.params.token,
+  });
+
+  if (!mailObjFound) {
+    //!invalid link
+  }
+
+  const userFound = await User.findById({ _id: req.params.userId });
+  userFound.password = req.body.password;
+  return await userFound.save();
+}
+
 module.exports = {
   sendVerificationMail,
   verifyMail,
+  sendResetPasswordMail,
+  resetPassword,
 };

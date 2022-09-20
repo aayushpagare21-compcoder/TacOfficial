@@ -19,6 +19,12 @@ router.get("/verification-mail-error", (req, res, next) => {
   res.send("error");
 });
 
+router.post("/forget-password", sendResetPasswordMail);
+router.get("/reset-password", (req, res, next) => {
+  res.send("get reset password page here");
+});
+router.post("/reset-password/:token/:userId", resetPassword);
+
 // Verifies the mail and redirects the user
 // type void
 function verifyMail(req, res, next) {
@@ -38,6 +44,25 @@ function sendVerificationMail(req, res, next) {
   authservice
     .sendVerificationMail(params)
     .then((message) => res.status(200).json(message))
+    .catch((err) => next(err));
+}
+
+function sendResetPasswordMail(req, res, next) {
+  const params = {
+    email: req.body.email,
+    host: req.headers.host,
+  };
+
+  authservice
+    .sendResetPasswordMail(params)
+    .then((message) => res.status(200).json(message))
+    .catch((err) => next(err));
+}
+
+function resetPassword(req, res, next) {
+  authservice
+    .resetPassword(req, res, next)
+    .then((user) => res.status(202).json(user))
     .catch((err) => next(err));
 }
 
