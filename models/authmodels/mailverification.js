@@ -2,12 +2,6 @@ const mongoose = require("mongoose");
 
 const mailVerficationSchema = mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Types.ObjectId,
-      unique: true,
-      required: true,
-      ref: "User",
-    },
     email: { type: String, required: true, unique: true, required: true },
     emailToken: { type: String, required: true, unique: true, required: true },
     expireAt: {
