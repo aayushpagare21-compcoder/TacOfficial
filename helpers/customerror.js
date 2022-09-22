@@ -9,9 +9,9 @@ class customerror extends Error {
     return new customerror(404, message);
   }
 
-  static unauthorizedUser(message) { 
-    return new customerror(301, message);
-  }
-}
+  static unauthorizedUser(message) {
+    return new customerror(401, message);
+  }   
+} 
 
 module.exports = customerror;

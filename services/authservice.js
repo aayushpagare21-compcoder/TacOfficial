@@ -1,12 +1,17 @@
+//models
 const MailVerification = require("../models/authmodels/mailverification.js");
-const User = require("../models/usermodels/user.js");
 const ForgetPassword = require("../models/authmodels/forgetpassword.js");
+const User = require("../models/usermodels/user.js");
 
+//helpers
 require("../helpers/db.js");
 const customerror = require("../helpers/customerror.js");
 const sendMail = require("../helpers/sendmail.js");
+const jwtservice = require("../helpers/jwtservice.js");
 
+//third party
 const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
 /*Sends email verification mail to user 
  returns a promise */
@@ -58,7 +63,6 @@ async function sendResetPasswordMail(params, next) {
   const userFound = await User.findOne({ email: params.email });
 
   if (!userFound) {
-    //! customerror working
     return next(customerror.userNotFound("Please register first"));
   }
 
@@ -89,7 +93,6 @@ async function resetPassword(req, res, next) {
   });
 
   if (!mailObjFound) {
-    //! working
     return next(customerror.unauthorizedUser("Invalid link to reset password"));
   }
 
@@ -99,9 +102,32 @@ async function resetPassword(req, res, next) {
   return await userFound.save();
 }
 
+async function login(params) {
+  const user = await User.findOne({ email: params.email });
+
+  if (!user) {
+    return customerror.userNotFound("Please register first");
+  }
+
+  if (!bcrypt.compareSync(params.password, user.password)) {
+    return customerror.unauthorizedUser("Password Incorrect");
+  }
+
+  const token = jwtservice.sign({
+    userId: user._id,
+    userEmail: user.email,
+  });
+
+  return {
+    user: user,
+    token: token,
+  };
+}
+
 module.exports = {
   sendVerificationMail,
   verifyMail,
   sendResetPasswordMail,
   resetPassword,
+  login,
 };

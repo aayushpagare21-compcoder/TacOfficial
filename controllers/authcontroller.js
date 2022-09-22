@@ -30,6 +30,9 @@ router.get("/reset-password", (req, res, next) => {
 // Resets the password
 router.post("/reset-password/:token/:userId", resetPassword);
 
+// Login the user
+router.post("/login", login);
+
 /* Gets the email address of the user
    Generates token and saves it in the database 
    type promise
@@ -84,5 +87,16 @@ function resetPassword(req, res, next) {
       return next(err);
     }); //! Internal server error , not able to save user to db
 }
+
+function login(req, res, next) {
+  authservice
+    .login(req.body)
+    .then((user) => {
+      if (user) return res.status(200).json(user);
+    })
+    .catch((err) => {
+      return next(err);
+    }); 
+} 
 
 module.exports = router;
