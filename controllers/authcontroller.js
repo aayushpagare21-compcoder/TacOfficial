@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const authservice = require("../services/authservice.js");
+const protect = require("../middlewares/protect.js");
 
 // Send your email to request a verification mail
 router.post("/", sendVerificationMail);
@@ -32,6 +33,10 @@ router.post("/reset-password/:token/:userId", resetPassword);
 
 // Login the user
 router.post("/login", login);
+
+router.get("/lol", protect, function (req, res) {
+  res.json({ message: "welocome lol" });
+});
 
 /* Gets the email address of the user
    Generates token and saves it in the database 
@@ -96,7 +101,7 @@ function login(req, res, next) {
     })
     .catch((err) => {
       return next(err);
-    }); 
-} 
+    });
+}
 
 module.exports = router;
