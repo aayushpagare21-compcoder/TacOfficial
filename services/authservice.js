@@ -1,13 +1,13 @@
 //models
-const MailVerification = require("../models/authmodels/mailverification.js");
-const ForgetPassword = require("../models/authmodels/forgetpassword.js");
-const User = require("../models/usermodels/user.js");
+const MailVerification = require("../models/mailverification.js");
+const ForgetPassword = require("../models/forgetpassword.js");
+const User = require("../models/user.js");
 
 //helpers
-require("../helpers/db.js");
-const customerror = require("../helpers/customerror.js");
-const sendMail = require("../helpers/sendmail.js");
-const jwtservice = require("../helpers/jwtservice.js");
+require("../utils/db.js");
+const customerror = require("../utils/customerror.js");
+const sendMail = require("../utils/sendmail.js");
+const jwtservice = require("../utils/jwtservice.js");
 
 //third party
 const crypto = require("crypto");

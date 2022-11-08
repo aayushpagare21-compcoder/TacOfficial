@@ -11,6 +11,7 @@ app.use(bodyparser.json());
 app.use("/users", require("./controllers/usercontroller.js"));
 app.use("/categories", require("./controllers/categorycontroller.js"));
 app.use("/auth", require("./controllers/authcontroller.js"));
+app.use(require("./controllers/ordercontroller.js"));
 
 app.use(require("./middlewares/errorhandler.js"));
 

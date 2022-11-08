@@ -53,6 +53,10 @@ const userMetaSchema = mongoose.Schema(
       required: true,
     },
 
+    order_id: {
+      type: [{ type: mongoose.ObjectId, ref: "Order", required: true }],
+    },
+
     profile_picture: {
       type: String,
       trim: true,

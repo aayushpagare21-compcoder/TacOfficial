@@ -1,5 +1,5 @@
-const customerror = require("../helpers/customerror.js");
-const jwtservice = require("../helpers/jwtservice.js");
+const customerror = require("../utils/customerror.js");
+const jwtservice = require("../utils/jwtservice.js");
 
 async function protect(req, res, next) {
   const authHeader = req.header.authorization;

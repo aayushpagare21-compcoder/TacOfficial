@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const authservice = require("../services/authservice.js");
-const protect = require("../middlewares/protect.js");
+const protect = require("../helpers/protect.js");
 
 // Send your email to request a verification mail
 router.post("/", sendVerificationMail);
@@ -35,7 +35,7 @@ router.post("/reset-password/:token/:userId", resetPassword);
 router.post("/login", login);
 
 router.get("/lol", protect, function (req, res) {
-  res.json({ message: "welocome lol" });
+  
 });
 
 /* Gets the email address of the user

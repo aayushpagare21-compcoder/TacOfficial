@@ -1,4 +1,4 @@
-const User = require("../models/usermodels/user.js");
+const User = require("../models/user.js");
 
 require("../helpers/db.js");
 
